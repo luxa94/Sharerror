@@ -13,7 +13,7 @@ var eventSchema = new Schema({
   },
   data: String,
   fragment: {
-    tpye: String,
+    type: String,
     required: true
   }
 });
@@ -25,5 +25,3 @@ eventSchema.pre('save', function (next) {
 });
 
 var Event = mongoose.model('Event', eventSchema);
-
-module.exports = Event;
