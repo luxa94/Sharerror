@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Event = require('../../../events/server/models/event.server.model');
+var eventSchema = Event.schema;
 
 var applicationSchema = new Schema({
   dns: {
@@ -27,7 +29,7 @@ var applicationSchema = new Schema({
     type: String
   },
   users: [{type: Schema.Types.ObjectId, ref: 'User'}],
-  events: [Event]
+  events: [eventSchema]
 });
 
 var Application = mongoose.model('Application', applicationSchema);

@@ -9,11 +9,11 @@ var eventSchema = new Schema({
   },
   timestamp: {
     type: Date,
-    required, true
+    required: true
   },
   data: String,
   fragment: {
-    tpye: String,
+    type: String,
     required: true
   }
 });
