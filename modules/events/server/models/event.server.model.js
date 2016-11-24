@@ -9,7 +9,7 @@ var eventSchema = new Schema({
   },
   timestamp: {
     type: Date,
-    required, true
+    required: true
   },
   data: String,
   fragment: {
@@ -25,3 +25,5 @@ eventSchema.pre('save', function (next) {
 });
 
 var Event = mongoose.model('Event', eventSchema);
+
+module.exports = Event;
