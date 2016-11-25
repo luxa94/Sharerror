@@ -63,7 +63,7 @@ exports.delete = function(req, res, next) {
   });
 };
 
-exports.createEvent = function(req, res, next){
+exports.createEvent = function(req, res, next) {
   var application = req.application;
   var event = new Event(req.body);
   Application.findByIdAndUpdate(application._id, {$push:{"events":event}}, function (err, application) {
@@ -76,35 +76,31 @@ exports.createEvent = function(req, res, next){
       return next(err);
     }
 
-    // application.populate('ownerId users').exec(function(err, application){
+    var userIds = application.users.slice();
+    userIds.push(application.ownerId);
 
-      var userIds = application.users.slice();
-      userIds.push(application.ownerId);
-
-      User.find({'_id': { $in: userIds} }, function(err, users){
-        for (var u in users) {
-          var user = users[u];
-          var payload = {
-            email: user.email,
-            applicationName: application.name,
-            version: event.appVersion,
-            message: event.data
-          };
-          mailService.send(payload);
-        }
-      });
-    // });
+    User.find({'_id': { $in: userIds} }, function(err, users) {
+      for (var u in users) {
+        var user = users[u];
+        var payload = {
+          email: user.email,
+          applicationName: application.name,
+          version: event.appVersion,
+          message: event.data
+        };
+        mailService.send(payload);
+      }
+    });
 
     res.json(application);
   });
 };
 
-
 exports.applicationByID = function(req, res, next, id){
-  Application.findById(id).populate('ownerId users').exec(function(err, application){
+  Application.findById(id).populate('ownerId users').exec(function(err, application) {
     if (err) {
       return next(err);
-    } else if (!application){
+    } else if (!application) {
       err = {
         status : 404
       }
@@ -115,8 +111,8 @@ exports.applicationByID = function(req, res, next, id){
   });
 };
 
-exports.applicationByDNS = function(req, res, next, dns){
-  Application.findOne({'dns': dns}).populate('ownerId users').exec(function(err, application){
+exports.applicationByDNS = function(req, res, next, dns) {
+  Application.findOne({'dns': dns}).populate('ownerId users').exec(function(err, application) {
     if (err) {
       return next(err);
     } else if (!applcation) {

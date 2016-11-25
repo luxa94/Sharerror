@@ -45,16 +45,37 @@ exports.findAll = function(req, res, next) {
 
 exports.registerForApp = function(req, res, next) {
   var application = req.application;
-  var usersId = req.body;
-  Application.findByIdAndUpdate(application._id, {$push:{"users": {$each: usersId}}}, function (err, application) {
+  var user = req.user;
+
+  if (!user || !application) {
+    return next({ status: 404 });
+  }
+
+  Application.findByIdAndUpdate(application._id, {$push:{"users": user._id}}, function (err, _application) {
     if (err) {
       return next(err);
-    }if (!application){
+    }
+
+    User.findByIdAndUpdate(user._id, {$push: {'applications': application._id}}, function (err, user) {
+      if (err) {
+        return next(err);
+      }
+    });
+    res.json(_application);
+  });
+}
+
+exports.userByID = function(req, res, next, id){
+  User.findById(id).populate('applications').exec(function(err, user) {
+    if (err) {
+      return next(err);
+    } else if (!user) {
       err = {
         status : 404
       }
       return next(err);
     }
-    res.json(application);
+    req.user = user;
+    next();
   });
-}
+};

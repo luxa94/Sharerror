@@ -12,8 +12,9 @@ module.exports = function(app){
   app.route('/api/users/login')
      .post(users.login);
 
-  app.route('/api/users/applications/:applicationId')
+  app.route('/api/users/:userId/applications/:applicationId')
      .put(users.registerForApp);
 
-  app.param("applicationId", applications.applicationByID);
+  app.param('userId', users.userByID);
+  app.param('applicationId', applications.applicationByID);
 }
