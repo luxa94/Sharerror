@@ -1,15 +1,10 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var Event = mongoose.model('Event');
 var Comment = mongoose.model('Comment');
 var jwt = require('jwt-simple');
 var properties = require('../../../../config/application.properties');
 var secret = properties.jwtSecret;
-
-module.exports.findOne = function (req, res, next) {
-    res.json(req.event);
-};
 
 module.exports.createComment = function (req, res, next) {
     var token = req.headers.authorization;
@@ -22,14 +17,14 @@ module.exports.createComment = function (req, res, next) {
         return next({status: 401})
     }
 
-    var event = req.event;
+    var comment = req.event;
     req.body.author = decoded.id;
-    var comment = new Comment(req.body);
+    var newComment = new Comment(req.body);
 
-    Event.findByIdAndUpdate(event._id, {$push: {"comments": comment}}, function (err, event) {
+    Comment.findByIdAndUpdate(comment._id, {$push: {"comments": newComment}}, function (err, comment) {
         if (err) {
             return next(err);
-        } else if (!event) {
+        } else if (!comment) {
             err = {
                 status: 404
             };
@@ -40,17 +35,15 @@ module.exports.createComment = function (req, res, next) {
     });
 };
 
-module.exports.eventById = function (req, res, next, id) {
-    Event.findById(id, (function (err, event) {
+module.exports.commentById = function (req, res, next, id) {
+    Comment.findById(id, function (err, comment) {
         if (err) {
             return next(err);
-        } else if (!event) {
+        } else if (!comment) {
             err = {
                 status: 404
             };
             return next(err);
         }
-        req.event = event;
-        next();
-    }));
+    });
 };

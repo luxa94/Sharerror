@@ -1,13 +1,15 @@
-module.exports = function(app) {
+'use strict';
 
-  app.use(function(err, req, res, next) {
-    var message = err.message;
-    var error = err.error || err;
-    var status = err.status || 500;
+module.exports = function (app) {
 
-    res.status(status).json({
-      message: message,
-      error: error
+    app.use(function (err, req, res, next) {
+        var message = err.message;
+        var error = err.error || err;
+        var status = err.status || 500;
+
+        res.status(status).json({
+            message: message,
+            error: error
+        });
     });
-  });
 }
