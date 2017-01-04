@@ -1,0 +1,43 @@
+<form novalidate name="logInForm">
+    <div flex layout="column" layout-align="center center">
+        <md-card class="md-padding">
+            <md-content layout-padding>
+                <md-card-title>
+                    <md-card-title-text>
+                        <p class="md-headline">Sharerror</p>
+                        <p class="md-subhead">Register a new account</p>
+                    </md-card-title-text>
+                </md-card-title>
+
+                <md-card-content>
+                    <md-input-container class="md-block">
+                        <label>Email</label>
+                        <input ng-model="vm.user.email" type="email" required>
+                    </md-input-container>
+
+                    <md-input-container class="md-block">
+                        <label>First name</label>
+                        <input ng-model="vm.user.firstName" type="text" required>
+                    </md-input-container>
+
+                    <md-input-container class="md-block">
+                        <label>Last name</label>
+                        <input ng-model="vm.user.lastName" type="text" required>
+                    </md-input-container>
+
+                    <md-input-container class="md-block">
+                        <label>Password</label>
+                        <input ng-model="vm.user.password" type="password" required>
+                    </md-input-container>
+                </md-card-content>
+            </md-content>
+
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-click="vm.goToLogin()">Login</md-button>
+                <md-button type="submit" class="md-primary md-raised" ng-disabled="logInForm.$invalid"
+                           ng-click="vm.register()">Register
+                </md-button>
+            </md-card-actions>
+        </md-card>
+    </div>
+</form>

@@ -1,0 +1,43 @@
+<div flex layout="column" layout-align="center center">
+    <md-card class="md-padding card800">
+        <md-card-title>
+            <md-card-title-text>
+                <h1>{{vm.app.name}}</h1>
+                <h3 layout="row" layout-align="center"><span flex>DSN: {{vm.app.dsn}}</span><span>Version: {{vm.app.version}}</span>
+                </h3>
+            </md-card-title-text>
+        </md-card-title>
+
+        <md-card-content>
+            <p>{{vm.app.description}}</p>
+        </md-card-content>
+    </md-card>
+
+    <md-tabs md-dynamic-height="" md-border-bottom="" class="card800">
+        <md-tab label="events">
+            <md-content>
+                <md-list flex>
+                    <md-subheader class="md-sticky">
+                        <md-input-container class="md-block">
+                            <label>Filter</label>
+                            <input type="text" ng-model="vm.search">
+                        </md-input-container>
+                    </md-subheader>
+                    <md-list-item class="md-3-line" ng-repeat="event in vm.app.events | filter:vm.search" ng-click="vm.openEvent(event._id)">
+                        <div class="md-list-item-text" layout="column">
+                            <h3>{{ event.data }}</h3>
+                            <h4>{{ event.timestamp | date:'medium' }}</h4>
+                            <h4>{{ event.appVersion }}</h4>
+                        </div>
+                    </md-list-item>
+                    <md-divider></md-divider>
+                </md-list>
+            </md-content>
+        </md-tab>
+        <md-tab label="users">
+            <md-content class="md-padding">
+                <h1 class="md-display-2">Tab Two</h1>
+            </md-content>
+        </md-tab>
+    </md-tabs>
+</div>

@@ -21,6 +21,7 @@ var userSchema = new Schema({
         type: String,
         required: true
     },
+    ownedApplications : [{type: Schema.Types.ObjectId, ref: 'Application'}],
     applications: [{type: Schema.Types.ObjectId, ref: 'Application'}]
 });
 

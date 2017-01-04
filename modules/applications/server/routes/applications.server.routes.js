@@ -12,9 +12,9 @@ module.exports = function (app) {
         .get(applications.findOne)
         .delete(applications.delete);
 
-    app.route('/api/applications/:applicationDNS/events')
+    app.route('/api/applications/:applicationDSN/events')
         .post(applications.createEvent);
 
     app.param('applicationId', applications.applicationByID);
-    app.param('applicationId', applications.applicationByDNS);
+    app.param('applicationDSN', applications.applicationByDSN);
 };

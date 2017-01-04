@@ -7,7 +7,7 @@ var jwt = require('jwt-simple');
 var properties = require('../../../../config/application.properties');
 var secret = properties.jwtSecret;
 
-exports.create = function (req, res, next) {
+module.exports.create = function (req, res, next) {
     var user = new User(req.body);
 
     user.save(function (err) {
@@ -18,7 +18,7 @@ exports.create = function (req, res, next) {
     });
 };
 
-exports.login = function (req, res, next) {
+module.exports.login = function (req, res, next) {
     var email = req.body.email;
     var password = req.body.password;
 
@@ -39,21 +39,18 @@ exports.login = function (req, res, next) {
         };
         var token = jwt.encode(userForJwt, secret);
 
-        var resObject = {success: true, token: token};
+        var resObject = {token: token};
         res.json(resObject);
     });
 };
 
-exports.findAll = function (req, res, next) {
-    User.find().populate('applications').exec(function (err, users) {
-        if (err) {
-            return next(err);
-        }
+module.exports.findAll = function (req, res, next) {
+    User.find().populate('applications').exec().then(function (users) {
         res.json(users);
     });
 };
 
-exports.registerForApp = function (req, res, next) {
+module.exports.registerForApp = function (req, res, next) {
     var token = req.headers.authorization;
     if (!token) {
         return next({status: 401})
@@ -91,17 +88,15 @@ exports.registerForApp = function (req, res, next) {
     });
 };
 
-exports.userByID = function (req, res, next, id) {
-    User.findById(id).populate('applications').exec(function (err, user) {
-        if (err) {
-            return next(err);
-        } else if (!user) {
-            err = {
-                status: 404
-            };
-            return next(err);
+module.exports.userByID = function (req, res, next, id) {
+    User.findById(id).populate('applications').exec().then(function (user) {
+        if (user) {
+            req.user = user;
+        } else {
+            return next({status: 404});
         }
-        req.user = user;
         next();
+    }).catch(function (err) {
+        return next({status: 404});
     });
 };

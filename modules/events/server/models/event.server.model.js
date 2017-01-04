@@ -6,8 +6,7 @@ var Schema = mongoose.Schema;
 var eventSchema = new Schema({
     appVersion: String,
     stackTrace: {
-        type: String,
-        required: true
+        type: String
     },
     timestamp: {
         type: Date,
@@ -17,13 +16,18 @@ var eventSchema = new Schema({
     fragment: {
         type: String,
         required: true
-    }
+    },
+    application: {
+        type: Schema.Types.ObjectId,
+        ref: 'Application',
+        required: true
+    },
+    comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}]
 });
 
-eventSchema.pre('save', function (next) {
-    if (!this.timestamp) {
-        this.timestamp = new Date();
-    }
+eventSchema.pre('validate', function (next) {
+    this.timestamp = new Date();
+    next();
 });
 
 var Event = mongoose.model('Event', eventSchema);

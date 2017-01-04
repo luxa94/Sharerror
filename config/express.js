@@ -23,5 +23,9 @@ module.exports = function() {
     require('../modules/comments/server/routes/comment.server.routes')(app);
     require('../config/errorHandler')(app);
 
+
+    app.use(express.static('client'));
+    app.use('/bower_components', express.static('bower_components'));
+
     return app;
 };

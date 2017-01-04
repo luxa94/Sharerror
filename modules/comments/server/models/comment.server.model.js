@@ -3,7 +3,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var User = require('../../../users/server/models/user.server.model');
-var userSchema = User.schema;
 
 var commentSchema = new Schema({
     author: {
@@ -15,20 +14,11 @@ var commentSchema = new Schema({
         type: String,
         required: true
     },
-    createdAt: Date,
-    updatedAt: Date
+    createdAt: Date
 });
 
-commentSchema.add({comments: [commentSchema]});
-
-commentSchema.pre('save', function (next) {
-    var currentDate = new Date();
-
-    this.updatedAt = currentDate;
-
-    if (!this.createdAt)
-        this.createdAt = currentDate;
-
+commentSchema.pre('validate', function (next) {
+    this.createdAt = new Date();
     next();
 });
 

@@ -26,31 +26,36 @@ module.exports.createComment = function (req, res, next) {
     req.body.author = decoded.id;
     var comment = new Comment(req.body);
 
-    Event.findByIdAndUpdate(event._id, {$push: {"comments": comment}}, function (err, event) {
+    comment.save(function (err) {
         if (err) {
             return next(err);
-        } else if (!event) {
-            err = {
-                status: 404
-            };
-            return next(err);
         }
+        Event.findByIdAndUpdate(event._id, {$push: {"comments": comment}}, function (err, event) {
+            if (err) {
+                return next(err);
+            } else if (!event) {
+                err = {
+                    status: 404
+                };
+                return next(err);
+            }
 
-        res.end();
-    });
+            res.json(comment);
+        });
+    })
 };
 
 module.exports.eventById = function (req, res, next, id) {
-    Event.findById(id, (function (err, event) {
-        if (err) {
-            return next(err);
-        } else if (!event) {
-            err = {
-                status: 404
-            };
-            return next(err);
-        }
-        req.event = event;
-        next();
-    }));
+    Event.findById(id).populate('comments').exec()
+        .then(function (event) {
+            if (event) {
+                req.event = event;
+            } else {
+                return next({status: 404});
+            }
+            next();
+        })
+        .catch(function () {
+            return next({status: 404});
+        });
 };

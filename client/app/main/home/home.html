@@ -1,0 +1,31 @@
+<div flex layout="column" layout-align="center center">
+    <md-card class="md-padding card600">
+        <md-content>
+            <md-input-container class="md-block">
+                <label>Search</label>
+                <input name="search" type="text" autofocus ng-model="vm.query">
+            </md-input-container>
+        </md-content>
+        <md-card-actions layout="row" layout-align="end center">
+            <md-button class="md-primary" ng-click="vm.clearSearch()">clear
+                <md-tooltip md-direction="bottom">
+                    clear search
+                </md-tooltip>
+            </md-button>
+        </md-card-actions>
+    </md-card>
+
+    <md-card ng-repeat="app in vm.apps | filter:vm.query" class="card600">
+        <md-card-title>
+            <md-card-title-text>
+                <p class="md-headline">{{app.name}}</p>
+                <p layout="row" layout-align="center"><span flex>DSN: {{app.dsn}}</span><span>Version: {{app.version}}</span></p>
+                <p>Events: {{app.events.length}}</p>
+            </md-card-title-text>
+        </md-card-title>
+
+        <md-card-actions layout="row" layout-align="end center">
+            <md-button class="md-primary" ng-click="vm.openApplication(app._id)">Details</md-button>
+        </md-card-actions>
+    </md-card>
+</div>
