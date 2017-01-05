@@ -1,4 +1,4 @@
-<form novalidate name="logInForm">
+<form novalidate name="registerForm">
     <div flex layout="column" layout-align="center center">
         <md-card class="md-padding">
             <md-content layout-padding>
@@ -34,7 +34,7 @@
 
             <md-card-actions layout="row" layout-align="end center">
                 <md-button ng-click="vm.goToLogin()">Login</md-button>
-                <md-button type="submit" class="md-primary md-raised" ng-disabled="logInForm.$invalid"
+                <md-button type="submit" class="md-primary md-raised" ng-disabled="registerForm.$invalid"
                            ng-click="vm.register()">Register
                 </md-button>
             </md-card-actions>

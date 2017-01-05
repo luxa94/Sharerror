@@ -7,9 +7,10 @@
             </md-input-container>
         </md-content>
         <md-card-actions layout="row" layout-align="end center">
-            <md-button class="md-primary" ng-click="vm.clearSearch()">clear
+            <md-button class="md-primary md-fab md-button md-ink-ripple" ng-click="vm.addApplication()">
+                <md-icon md-svg-src="assets/ic_add.svg"></md-icon>
                 <md-tooltip md-direction="bottom">
-                    clear search
+                    Add another application
                 </md-tooltip>
             </md-button>
         </md-card-actions>
@@ -19,8 +20,14 @@
         <md-card-title>
             <md-card-title-text>
                 <p class="md-headline">{{app.name}}</p>
-                <p layout="row" layout-align="center"><span flex>DSN: {{app.dsn}}</span><span>Version: {{app.version}}</span></p>
-                <p>Events: {{app.events.length}}</p>
+                <p layout="row" layout-align="center">
+                    <span flex>DSN: {{app.dsn}}</span>
+                    <span>Version: {{app.version}}</span>
+                </p>
+                <p layout="row" layout-align="center">
+                    <span flex>Owner: {{app.owner.firstName}} {{app.owner.lastName}}</span>
+                    <span>Events: {{app.events.length}}</span>
+                </p>
             </md-card-title-text>
         </md-card-title>
 

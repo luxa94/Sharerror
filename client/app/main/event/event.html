@@ -1,0 +1,45 @@
+<div flex layout="column" layout-align="center center">
+    <md-card class="md-padding card800">
+        <md-card-title>
+            <md-card-title-text>
+                <h1>Fragment: {{vm.event.fragment}}</h1>
+                <h3 layout="row" layout-align="center">
+                    <span flex>Time: {{vm.event.timestamp | date:'medium'}}</span>
+                    <span>App version: {{vm.event.appVersion}}</span>
+                </h3>
+            </md-card-title-text>
+        </md-card-title>
+
+        <md-card-content ng-if="vm.event.stackTrace">
+            <h4>Stack trace</h4>
+            <p>{{vm.event.stackTrace}}</p>
+        </md-card-content>
+        <md-card-content ng-if="vm.event.data">
+            <h4>Data</h4>
+            <p>{{vm.event.data}}</p>
+        </md-card-content>
+    </md-card>
+
+    <md-list flex class="card800">
+        <md-subheader class="md-sticky">
+            <md-content layout="row" layout-align="space-between center">
+                <md-input-container flex>
+                    <label>Comment</label>
+                    <input type="text" ng-model="vm.commentText">
+                </md-input-container>
+
+                <md-button class="md-primary md-raised" ng-click="vm.addComment()">Comment</md-button>
+            </md-content>
+            <md-input-container class="md-block" ng-if="vm.event.comments.length">
+                <label>Filter</label>
+                <input type="text" ng-model="vm.commentSearch">
+            </md-input-container>
+        </md-subheader>
+        <div ng-if="vm.event.comments.length">
+            <div ng-repeat="comment in vm.event.comments | filter:vm.commentSearch">
+                <custom-comments comment-id="{{comment._id}}"></custom-comments>
+            </div>
+        </div>
+    </md-list>
+
+</div>

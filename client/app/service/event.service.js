@@ -5,7 +5,7 @@
         .module('sharerror')
         .service('eventService', ['$http', eventService]);
 
-    var BASE_URL = '/api/events/';
+    var BASE_URL = '/api/events';
 
     function urlAndId(id) {
         return BASE_URL + '/' + id;

@@ -6,6 +6,10 @@ var jwt = require('jwt-simple');
 var properties = require('../../../../config/application.properties');
 var secret = properties.jwtSecret;
 
+module.exports.findOne = function(req, res, next) {
+    res.json(req.comment);
+};
+
 module.exports.createComment = function (req, res, next) {
     var token = req.headers.authorization;
     if (!token) {
@@ -17,7 +21,7 @@ module.exports.createComment = function (req, res, next) {
         return next({status: 401})
     }
 
-    var comment = req.event;
+    var comment = req.comment;
     req.body.author = decoded.id;
     var newComment = new Comment(req.body);
     newComment.save(function (err) {
@@ -40,14 +44,14 @@ module.exports.createComment = function (req, res, next) {
 };
 
 module.exports.commentById = function (req, res, next, id) {
-    Comment.findById(id).populate('comments').exec()
+    Comment.findById(id).populate('author comments').exec()
         .then(function (comment) {
             if (comment) {
                 req.comment = comment;
+                next();
             } else {
                 return next({status: 404});
             }
-            next();
         })
         .catch(function (err, comment) {
             return next({status: 404});

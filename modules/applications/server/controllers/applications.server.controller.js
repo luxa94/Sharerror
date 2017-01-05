@@ -100,6 +100,45 @@ module.exports.delete = function (req, res, next) {
     });
 };
 
+module.exports.findOtherUsers = function (req, res, next) {
+    var token = req.headers.authorization;
+    if (!token) {
+        return next({status: 401})
+    }
+
+    var decoded = jwt.decode(token, secret);
+    if (!decoded) {
+        return next({status: 401})
+    }
+
+    var application = req.application;
+    var hasAccess = false;
+    for (var u = 0; u < application.users.length; u++) {
+        var user = application.users[u];
+        if (user._id.toString() === decoded.id) {
+            hasAccess = true;
+            break;
+        }
+    }
+    if (!(application.owner._id.toString() === decoded.id || hasAccess)) {
+        return next({status: 404})
+    }
+
+    User.find({'ownedApplications': {'$ne': application._id}, 'applications': {'$ne': application._id}},
+        function (err, users) {
+            if (err) {
+                return next(err);
+            } else if (!users) {
+                err = {
+                    status: 404
+                };
+                return next(err);
+            }
+            res.json(users);
+            next();
+        });
+};
+
 module.exports.createEvent = function (req, res, next) {
     var application = req.application;
     var event = new Event(req.body);

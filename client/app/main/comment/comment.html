@@ -1,0 +1,22 @@
+<md-card class="md-padding">
+    <div class="md-3-line" layout="column">
+        <p class="md-headline">{{ vm.comment.author.firstName }} {{ vm.comment.author.lastName }}</p>
+        <p class="md-subhead">{{ vm.comment.text }}</p>
+        <p class="md-subhead">{{ vm.comment.createdAt | date:'medium' }}</p>
+    </div>
+
+    <md-list flex>
+        <custom-comments ng-repeat="comment in vm.comment.comments" comment-id="{{comment._id}}"></custom-comments>
+        <md-subheader>
+            <md-content layout="row" layout-align="space-between center">
+                <md-input-container flex>
+                    <label>Reply</label>
+                    <input type="text" ng-model="vm.commentText">
+                </md-input-container>
+
+                <md-button class="md-primary md-raised" ng-click="vm.addComment()">Reply</md-button>
+            </md-content>
+        </md-subheader>
+    </md-list>
+
+</md-card>

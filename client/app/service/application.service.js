@@ -17,6 +17,7 @@
             create: create,
             findAll: findAll,
             findOne: findOne,
+            findOtherUsers: findOtherUsers,
             deleteOne: deleteOne
         };
 
@@ -32,7 +33,11 @@
             return $http.get(urlAndId(applicationId));
         }
 
-        function deleteOne(loginDTO) {
+        function findOtherUsers(applicationId) {
+            return $http.get(urlAndId(applicationId) + '/otherUsers');
+        }
+
+        function deleteOne(applicationId) {
             return $http.delete(urlAndId(applicationId));
         }
     }

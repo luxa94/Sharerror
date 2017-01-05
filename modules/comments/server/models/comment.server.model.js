@@ -24,4 +24,6 @@ commentSchema.pre('validate', function (next) {
 
 var Comment = mongoose.model('Comment', commentSchema);
 
+commentSchema.add({comments:[{type: Schema.Types.ObjectId, ref: 'Comment'}]});
+
 module.exports = Comment;

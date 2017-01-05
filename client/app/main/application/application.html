@@ -17,13 +17,14 @@
         <md-tab label="events">
             <md-content>
                 <md-list flex>
-                    <md-subheader class="md-sticky">
+                    <md-subheader>
                         <md-input-container class="md-block">
                             <label>Filter</label>
-                            <input type="text" ng-model="vm.search">
+                            <input type="text" ng-model="vm.eventSearch">
                         </md-input-container>
                     </md-subheader>
-                    <md-list-item class="md-3-line" ng-repeat="event in vm.app.events | filter:vm.search" ng-click="vm.openEvent(event._id)">
+                    <md-list-item class="md-3-line" ng-repeat="event in vm.app.events | filter:vm.eventSearch"
+                                  ng-click="vm.openEvent(event._id)">
                         <div class="md-list-item-text" layout="column">
                             <h3>{{ event.data }}</h3>
                             <h4>{{ event.timestamp | date:'medium' }}</h4>
@@ -34,10 +35,52 @@
                 </md-list>
             </md-content>
         </md-tab>
+
         <md-tab label="users">
-            <md-content class="md-padding">
-                <h1 class="md-display-2">Tab Two</h1>
-            </md-content>
+            <md-list flex>
+                <md-subheader>
+                    <md-content>
+                        <div class="md-list-item-text" layout="column">
+                            <h2>Owner: {{ vm.app.owner.firstName }} {{ vm.app.owner.lastName }}</h2>
+                            <h4>{{ vm.app.owner.email }}</h4>
+                        </div>
+                    </md-content>
+                    <md-input-container class="md-block">
+                        <label>Filter</label>
+                        <input type="text" ng-model="vm.userSearch">
+                    </md-input-container>
+                </md-subheader>
+                <md-list-item class="md-2-line" ng-repeat="user in vm.app.users | filter:vm.userSearch">
+                    <div class="md-list-item-text" layout="column">
+                        <h3>{{ user.firstName }} {{ user.lastName }}</h3>
+                        <h4>{{ user.email }}</h4>
+                    </div>
+                </md-list-item>
+                <md-divider></md-divider>
+            </md-list>
+        </md-tab>
+
+        <md-tab label="add user" ng-if="vm.app.owner._id === vm.userId">
+            <md-list>
+                <md-subheader>
+                    <md-input-container class="md-block">
+                        <label>Filter</label>
+                        <input type="text" ng-model="vm.addUserSearch">
+                    </md-input-container>
+                </md-subheader>
+
+                <div ng-repeat="user in vm.otherUsers | filter:vm.addUserSearch">
+                    <md-list-item flex layout="row" layout-align="space-between center" class="md-2-line">
+                        <div flex class="md-list-item-text" layout="column">
+                            <h3>{{ user.firstName }} {{ user.lastName }}</h3>
+                            <h4>{{ user.email }}</h4>
+                        </div>
+
+                        <md-button class="md-primary md-raised" ng-click="vm.addUser(user._id)">Add</md-button>
+                    </md-list-item>
+                    <md-divider></md-divider>
+                </div>
+            </md-list>
         </md-tab>
     </md-tabs>
 </div>

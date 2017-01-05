@@ -1,0 +1,38 @@
+<md-dialog flex class="md-padding">
+    <form novalidate name="applicationForm">
+        <md-dialog-title>
+            <p class="md-headline">Create a new application</p>
+        </md-dialog-title>
+        <md-dialog-content>
+            <md-input-container class="md-block">
+                <label>DSN</label>
+                <input ng-model="vm.app.dsn" type="text" required>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>Application name</label>
+                <input ng-model="vm.app.name" type="text" required>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>Application description</label>
+                <input ng-model="vm.app.description" type="text" required>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>Version</label>
+                <textarea ng-model="vm.app.version" type="text"></textarea>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>Repository</label>
+                <input ng-model="vm.app.repository" type="text">
+            </md-input-container>
+        </md-dialog-content>
+        <md-dialog-actions layout="row" layout-align="end center">
+            <md-button ng-click="vm.cancel()">Cancel</md-button>
+            <md-button type="submit" ng-click="vm.save()" class="md-primary md-raised" ng-disabled="applicationForm.$invalid">Save
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -10,12 +10,25 @@
 
         vm.apps = [];
 
-        applicationService.findAll().then(function (response) {
-            vm.apps = response.data;
-        });
+        function refresh() {
+            applicationService.findAll().then(function (response) {
+                vm.apps = response.data;
+            });
+        }
 
-        vm.clearSearch = function () {
-            vm.query = '';
+        refresh();
+
+        vm.addApplication = function () {
+            $mdDialog.show({
+                controller: 'newApplicationController',
+                controllerAs: 'vm',
+                templateUrl: '/app/main/home/dialog/newApplication.html',
+                parent: angular.element(document.body)
+            }).then(function () {
+                refresh();
+            }).catch(function () {
+                console.log('Canceled.')
+            });
         };
 
         vm.openApplication = function (id) {

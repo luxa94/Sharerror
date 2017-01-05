@@ -12,6 +12,9 @@ module.exports = function (app) {
         .get(applications.findOne)
         .delete(applications.delete);
 
+    app.route('/api/applications/:applicationId/otherUsers')
+        .get(applications.findOtherUsers);
+
     app.route('/api/applications/:applicationDSN/events')
         .post(applications.createEvent);
 
