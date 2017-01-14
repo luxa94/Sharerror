@@ -4,8 +4,16 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 
-module.exports = function() {
+module.exports = function () {
     var app = express();
+
+    // Add headers
+    app.use(function (req, res, next) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', '*');
+        res.setHeader('Access-Control-Allow-Headers', 'X-AUTH-TOKEN, Content-Type');
+        next();
+    });
 
     require('../modules/applications/server/models/application.server.model');
     require('../modules/events/server/models/event.server.model');
@@ -13,7 +21,7 @@ module.exports = function() {
     require('../modules/comments/server/models/comment.server.model');
 
     app.use(bodyParser.urlencoded({
-      extended: true
+        extended: true
     }));
     app.use(bodyParser.json());
 
